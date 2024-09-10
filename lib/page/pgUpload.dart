@@ -168,6 +168,26 @@ class _PguploadPageState extends State<PguploadPage> {
                     if (_tipoOperadora == 'Pessoa Física') _buildPessoaFisicaFields(),
                     if (_tipoOperadora == 'Pessoa Jurídica de Direito Privado') _buildPessoaJuridicaPrivadaFields(),
                     if (_tipoOperadora == 'Pessoa Jurídica de Direito Público') _buildPessoaJuridicaPublicaFields(),
+                    
+                    const SizedBox(height: 24),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: SizedBox(
+                        width: 150,
+                        height: 50,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            // Ação do botão aqui
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[900],
+                            foregroundColor: Colors.white,
+                          ),
+                          icon: const Icon(Icons.check),
+                          label: const Text("Cadastrar"),
+                          ),
+                        ),
+                      ), 
                   ],
                 ),
               ),
@@ -179,62 +199,32 @@ class _PguploadPageState extends State<PguploadPage> {
   }
 
   // Função para construir os campos lado a lado
-  Widget _buildThreeTextFields(String label1, String label2, String label3) {
-    return Row(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: label1,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
-          ),
+  Widget _buildSingleTextField(String title) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelText: title,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: label2,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: label3,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
+      ),
+    ),
+  );
+}
   Widget _buildPessoaFisicaFields() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Documentos para Pessoa Física', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,)),
         SizedBox(height: 8),
-        _buildThreeTextFields(
-            'Número do CPF', 'Número da Carteira de Identidade', 'Endereço', ),
-        _buildThreeTextFields(
-          'UF', 'Bairro', 'CEP', ),
+        _buildSingleTextField('Número do CPF'),
+        _buildSingleTextField('Número da Carteira de Identidade'),
+        _buildSingleTextField('Endereço'),
+        _buildSingleTextField('UF'),
+        _buildSingleTextField('Bairro'), 
+        _buildSingleTextField('CEP'),
+        
         SizedBox(height: 16),
         _buildUploadButton('Cópia do CPF'),
         _buildUploadButton('Cópia da Carteira de Identidade'),
@@ -250,9 +240,14 @@ class _PguploadPageState extends State<PguploadPage> {
       children: [
         Text('Documentos para Pessoa Jurídica de Direito Privado', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,)),
         SizedBox(height: 8),
-        _buildThreeTextFields('Número do CNPJ', 'Número de Inscrição (INSS)', 'Endereço', ),
-        _buildThreeTextFields(
-          'UF', 'Bairro', 'CEP', ),
+        _buildSingleTextField('Número do CNPJ'),
+        _buildSingleTextField( 'Número de Inscrição (INSS)'),
+        _buildSingleTextField('Endereço'),
+        _buildSingleTextField('UF'),
+        _buildSingleTextField('Bairro'),
+        _buildSingleTextField('CEP'),
+
+
         SizedBox(height: 16),
         _buildUploadButton('Cópia do CNPJ - Comprovante de Inscrição e Situação Cadastral'),
         _buildUploadButton('Contrato Social e suas alterações'),
@@ -269,8 +264,12 @@ class _PguploadPageState extends State<PguploadPage> {
       children: [
         Text('Documentos para Pessoa Jurídica de Direito Público', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,)),
         SizedBox(height: 8),
-        _buildThreeTextFields('Número do CNPJ', 'Número do Cartão de Cadastro (CF/DF)','Endereço', ),
-        _buildThreeTextFields('UF', 'Bairro', 'CEP'),
+        _buildSingleTextField('Número do CNPJ'),
+        _buildSingleTextField('Número do Cartão de Cadastro (CF/DF)'),
+        _buildSingleTextField('Endereço'),
+        _buildSingleTextField('UF'),
+        _buildSingleTextField('Bairro'),
+        _buildSingleTextField( 'CEP'),
         SizedBox(height: 16),
         _buildUploadButton('Cópia do CNPJ - Comprovante de Inscrição e Situação Cadastral'),
         _buildUploadButton('Ato de instituição e suas alterações'),
@@ -347,3 +346,4 @@ class _PguploadPageState extends State<PguploadPage> {
     return null; // Retorna null se nenhum arquivo for selecionado
   }
 }
+
