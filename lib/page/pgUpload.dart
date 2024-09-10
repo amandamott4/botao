@@ -282,56 +282,69 @@ class _PguploadPageState extends State<PguploadPage> {
 
   // Função para exibir o botão de upload com a funcionalidade de alterar/excluir o arquivo
   Widget _buildUploadButton(String label) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label),
-        SizedBox(height: 8),
-        ElevatedButton.icon(
-          onPressed: () async {
-            String? result = await _pickFile(); // Pegar o arquivo usando file_picker
-            if (result != null) {
-              setState(() {
-                _uploadedFiles[label] = result; // Armazenar o nome do arquivo
-              });
-            }
-          },
-          icon: Icon(Icons.attach_file, color: Colors.white),
-          label: Text(
-            _uploadedFiles[label] == null ? 'Anexar arquivo PDF' : 'Alterar arquivo',
-            style: TextStyle(color: Colors.white),
-          ),
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(Color(0xFF005EB8)), // Azul da página
-            padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
-          ),
-        ),
-        if (_uploadedFiles[label] != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Arquivo anexado: ${_uploadedFiles[label]}',
-                    style: TextStyle(fontSize: 14, color: Colors.blue),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: () {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(label),
+      SizedBox(height: 8),
+      Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                String? result = await _pickFile(); // Pegar o arquivo usando file_picker
+                if (result != null) {
+                  setState(() {
+                    _uploadedFiles[label] = result; // Armazenar o nome do arquivo
+                  });
+                }
+              },
+              child: Icon(
+                _uploadedFiles[label] == null ? Icons.attach_file : Icons.edit,
+                color: Colors.white,
+              ),
+              style: ElevatedButton.styleFrom(
+                shape: CircleBorder(), backgroundColor: Color(0xFF005EB8),
+                padding: EdgeInsets.all(10), // Azul da página
+              ),
+            ),
+            if (_uploadedFiles[label] != null)
+              Positioned(
+                right: 0,
+                top: 0,
+                child: GestureDetector(
+                  onTap: () {
                     setState(() {
                       _uploadedFiles[label] = null; // Excluir o arquivo anexado
                     });
                   },
+                  child: Container(
+                    padding: EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.close, size: 12, color: Colors.white),
+                  ),
                 ),
-              ],
-            ),
+              ),
+          ],
+        ),
+      ),
+      if (_uploadedFiles[label] != null)
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            'Arquivo anexado: ${_uploadedFiles[label]}',
+            style: TextStyle(fontSize: 14, color: Colors.blue),
+            textAlign: TextAlign.center,
           ),
-        SizedBox(height: 16),
-      ],
-    );
-  }
+        ),
+      SizedBox(height: 16),
+    ],
+  );
+}
 
   // Função para abrir o File Picker e selecionar um arquivo PDF
   Future<String?> _pickFile() async {
