@@ -169,6 +169,7 @@ class _PguploadPageState extends State<PguploadPage> {
                     if (_tipoOperadora == 'Pessoa Jurídica de Direito Privado') _buildPessoaJuridicaPrivadaFields(),
                     if (_tipoOperadora == 'Pessoa Jurídica de Direito Público') _buildPessoaJuridicaPublicaFields(),
                     
+                    // Ação do botão
                     const SizedBox(height: 24),
                     Align(
                       alignment: Alignment.centerRight,
@@ -177,14 +178,15 @@ class _PguploadPageState extends State<PguploadPage> {
                         height: 50,
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            // Ação do botão aqui
+                            
+                          //Personalização do botão  
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue[900],
                             foregroundColor: Colors.white,
                           ),
                           icon: const Icon(Icons.check),
-                          label: const Text("Cadastrar"),
+                          label: const Text("Enviar"),
                           ),
                         ),
                       ), 
@@ -198,7 +200,21 @@ class _PguploadPageState extends State<PguploadPage> {
     );
   }
 
-  // Função para construir os campos lado a lado
+//posicionar o botao de anexar 
+Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
+  return Row(
+   crossAxisAlignment: CrossAxisAlignment.center, // Alinha os elementos à direita
+    children: [
+      Expanded(
+        child: _buildSingleTextField(title), // Campo de texto depois (à direita)
+      ),
+      SizedBox(width: 10),
+      _buildUploadButton(buttonLabel),
+    ],
+  );
+}
+
+  // Função para criar e personalizar os campos 
   Widget _buildSingleTextField(String title) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -212,26 +228,33 @@ class _PguploadPageState extends State<PguploadPage> {
     ),
   );
 }
+ //posicionar os campos um em baixo do outro
   Widget _buildPessoaFisicaFields() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+       children: [
         Text('Documentos para Pessoa Física', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,)),
         SizedBox(height: 8),
-        _buildSingleTextField('Número do CPF'),
-        _buildSingleTextField('Número da Carteira de Identidade'),
-        _buildSingleTextField('Endereço'),
-        _buildSingleTextField('UF'),
-        _buildSingleTextField('Bairro'), 
-        _buildSingleTextField('CEP'),
-        
-        SizedBox(height: 16),
-        _buildUploadButton('Cópia do CPF'),
-        _buildUploadButton('Cópia da Carteira de Identidade'),
+
+         //campos de linha unica
+        _buildRowWithFieldAndButton('Número do CPF', ''),
+        _buildRowWithFieldAndButton('Número da Carteira de Identidade', ''),
+      
+        // Nova linha com 4 campos
+        Row(
+          children: [
+            Expanded(child: _buildSingleTextField('UF')),
+            Expanded(child: _buildSingleTextField('Bairro')),
+            Expanded(child: _buildSingleTextField('Endereço')),
+            Expanded(child: _buildSingleTextField('CEP'),),
+          ],
+        ),
+
+       
         _buildUploadButton('Cópia do comprovante de residência (EM NOME DO CONTRATADO)'),
         _buildUploadButton('Certidão Negativa de Débitos junto à Secretaria de Estado de Fazenda do DF'),
       ],
-    );
+    );   
   }
 
   Widget _buildPessoaJuridicaPrivadaFields() {
@@ -240,13 +263,20 @@ class _PguploadPageState extends State<PguploadPage> {
       children: [
         Text('Documentos para Pessoa Jurídica de Direito Privado', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,)),
         SizedBox(height: 8),
+
+        //campos de linha unica
         _buildSingleTextField('Número do CNPJ'),
         _buildSingleTextField( 'Número de Inscrição (INSS)'),
-        _buildSingleTextField('Endereço'),
-        _buildSingleTextField('UF'),
-        _buildSingleTextField('Bairro'),
-        _buildSingleTextField('CEP'),
 
+      // Nova linha com 4 campos
+      Row(
+          children: [
+            Expanded(child: _buildSingleTextField('UF')),
+            Expanded(child: _buildSingleTextField('Bairro')),
+            Expanded(child: _buildSingleTextField('Endereço')),
+            Expanded(child: _buildSingleTextField('CEP')),
+          ],
+        ),  
 
         SizedBox(height: 16),
         _buildUploadButton('Cópia do CNPJ - Comprovante de Inscrição e Situação Cadastral'),
@@ -264,12 +294,23 @@ class _PguploadPageState extends State<PguploadPage> {
       children: [
         Text('Documentos para Pessoa Jurídica de Direito Público', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,)),
         SizedBox(height: 8),
-        _buildSingleTextField('Número do CNPJ'),
-        _buildSingleTextField('Número do Cartão de Cadastro (CF/DF)'),
-        _buildSingleTextField('Endereço'),
-        _buildSingleTextField('UF'),
-        _buildSingleTextField('Bairro'),
-        _buildSingleTextField( 'CEP'),
+
+          //campos de linha unica
+         _buildSingleTextField('Número do CNPJ'),
+         _buildSingleTextField('Número do Cartão de Cadastro (CF/DF)'),
+
+       // Nova linha com 4 campos
+       Row(
+          children: [
+            Expanded(child: _buildSingleTextField('UF')),
+            Expanded(child: _buildSingleTextField('Bairro')),
+            Expanded(child: _buildSingleTextField('Endereço')),
+            Expanded(child: _buildSingleTextField('CEP')),
+          ],
+        ),  
+
+      
+       
         SizedBox(height: 16),
         _buildUploadButton('Cópia do CNPJ - Comprovante de Inscrição e Situação Cadastral'),
         _buildUploadButton('Ato de instituição e suas alterações'),
@@ -279,6 +320,8 @@ class _PguploadPageState extends State<PguploadPage> {
       ],
     );
   }
+
+
 
   // Função para exibir o botão de upload com a funcionalidade de alterar/excluir o arquivo
   Widget _buildUploadButton(String label) {
