@@ -246,7 +246,7 @@ Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
             Expanded(child: _buildSingleTextField('UF')),
             Expanded(child: _buildSingleTextField('Bairro')),
             Expanded(child: _buildSingleTextField('Endereço')),
-            Expanded(child: _buildSingleTextField('CEP'),),
+            Expanded(child: _buildRowWithFieldAndButton('CEP','')),
           ],
         ),
 
@@ -265,16 +265,16 @@ Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
         SizedBox(height: 8),
 
         //campos de linha unica
-        _buildSingleTextField('Número do CNPJ'),
-        _buildSingleTextField( 'Número de Inscrição (INSS)'),
+        _buildRowWithFieldAndButton('Número do CNPJ', ''),
+         _buildRowWithFieldAndButton( 'Número de Inscrição (INSS)', ''),
 
       // Nova linha com 4 campos
       Row(
           children: [
-            Expanded(child: _buildSingleTextField('UF')),
+             Expanded(child: _buildSingleTextField('UF')),
             Expanded(child: _buildSingleTextField('Bairro')),
             Expanded(child: _buildSingleTextField('Endereço')),
-            Expanded(child: _buildSingleTextField('CEP')),
+            Expanded(child: _buildRowWithFieldAndButton('CEP','')),
           ],
         ),  
 
@@ -296,16 +296,16 @@ Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
         SizedBox(height: 8),
 
           //campos de linha unica
-         _buildSingleTextField('Número do CNPJ'),
-         _buildSingleTextField('Número do Cartão de Cadastro (CF/DF)'),
+        _buildRowWithFieldAndButton('Número do CNPJ', ''),
+        _buildRowWithFieldAndButton('Número do Cartão de Cadastro (CF/DF)', ''),
 
        // Nova linha com 4 campos
        Row(
           children: [
-            Expanded(child: _buildSingleTextField('UF')),
+             Expanded(child: _buildSingleTextField('UF')),
             Expanded(child: _buildSingleTextField('Bairro')),
             Expanded(child: _buildSingleTextField('Endereço')),
-            Expanded(child: _buildSingleTextField('CEP')),
+            Expanded(child: _buildRowWithFieldAndButton('CEP','')),
           ],
         ),  
 
