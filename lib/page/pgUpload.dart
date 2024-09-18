@@ -201,14 +201,11 @@ class _PguploadPageState extends State<PguploadPage> {
   }
 
 //posicionar o botao de anexar 
-Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
-  return Row(
-   crossAxisAlignment: CrossAxisAlignment.center, // Alinha os elementos à direita
+Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
+  return Column(
     children: [
-      Expanded(
-        child: _buildSingleTextField(title), // Campo de texto depois (à direita)
-      ),
-      SizedBox(width: 10),
+      _buildSingleTextField(title),
+      SizedBox(height: 10),
       _buildUploadButton(buttonLabel),
     ],
   );
@@ -230,32 +227,32 @@ Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
 }
  //posicionar os campos um em baixo do outro
   Widget _buildPessoaFisicaFields() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-       children: [
-        Text('Documentos para Pessoa Física', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,)),
-        SizedBox(height: 8),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('Documentos para Pessoa Física', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,)),
+      SizedBox(height: 8),
 
-         //campos de linha unica
-        _buildRowWithFieldAndButton('Número do CPF', ''),
-        _buildRowWithFieldAndButton('Número da Carteira de Identidade', ''),
-      
-        // Nova linha com 4 campos
-        Row(
-          children: [
-            Expanded(child: _buildSingleTextField('UF')),
-            Expanded(child: _buildSingleTextField('Bairro')),
-            Expanded(child: _buildSingleTextField('Endereço')),
-            Expanded(child: _buildRowWithFieldAndButton('CEP','')),
-          ],
-        ),
+      // Campos com botões abaixo
+      _buildColumnWithFieldAndButton('Número do CPF', 'Upload CPF'),
+      _buildColumnWithFieldAndButton('Número da Carteira de Identidade', 'Upload RG'),
+    
+      // Nova linha com 4 campos
+      Row(
+        children: [
+          Expanded(child: _buildSingleTextField('UF')),
+          Expanded(child: _buildSingleTextField('Bairro')),
+          Expanded(child: _buildSingleTextField('Endereço')),
+          Expanded(child: _buildColumnWithFieldAndButton('CEP', 'Upload CEP')),
+        ],
+      ),
 
-       
-        _buildUploadButton('Cópia do comprovante de residência (EM NOME DO CONTRATADO)'),
-        _buildUploadButton('Certidão Negativa de Débitos junto à Secretaria de Estado de Fazenda do DF'),
-      ],
-    );   
-  }
+      // Botões de upload separados
+      _buildUploadButton('Cópia do comprovante de residência (EM NOME DO CONTRATADO)'),
+      _buildUploadButton('Certidão Negativa de Débitos junto à Secretaria de Estado de Fazenda do DF'),
+    ],
+  );   
+}
 
   Widget _buildPessoaJuridicaPrivadaFields() {
     return Column(
@@ -265,8 +262,8 @@ Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
         SizedBox(height: 8),
 
         //campos de linha unica
-        _buildRowWithFieldAndButton('Número do CNPJ', ''),
-         _buildRowWithFieldAndButton( 'Número de Inscrição (INSS)', ''),
+        _buildColumnWithFieldAndButton('Número do CNPJ', ''),
+        _buildColumnWithFieldAndButton( 'Número de Inscrição (INSS)', ''),
 
       // Nova linha com 4 campos
       Row(
@@ -274,7 +271,7 @@ Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
              Expanded(child: _buildSingleTextField('UF')),
             Expanded(child: _buildSingleTextField('Bairro')),
             Expanded(child: _buildSingleTextField('Endereço')),
-            Expanded(child: _buildRowWithFieldAndButton('CEP','')),
+            Expanded(child:  _buildColumnWithFieldAndButton('CEP','')),
           ],
         ),  
 
@@ -296,16 +293,16 @@ Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
         SizedBox(height: 8),
 
           //campos de linha unica
-        _buildRowWithFieldAndButton('Número do CNPJ', ''),
-        _buildRowWithFieldAndButton('Número do Cartão de Cadastro (CF/DF)', ''),
+        _buildColumnWithFieldAndButton('Número do CNPJ', ''),
+        _buildColumnWithFieldAndButton('Número do Cartão de Cadastro (CF/DF)', ''),
 
        // Nova linha com 4 campos
        Row(
           children: [
-             Expanded(child: _buildSingleTextField('UF')),
+            Expanded(child: _buildSingleTextField('UF')),
             Expanded(child: _buildSingleTextField('Bairro')),
             Expanded(child: _buildSingleTextField('Endereço')),
-            Expanded(child: _buildRowWithFieldAndButton('CEP','')),
+            Expanded(child: _buildColumnWithFieldAndButton('CEP','')),
           ],
         ),  
 
@@ -343,13 +340,16 @@ Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
                   });
                 }
               },
-              child: Icon(
-                _uploadedFiles[label] == null ? Icons.attach_file : Icons.edit,
-                color: Colors.white,
+              child: Text(
+                'Anexar arquivo',
+                style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
-                shape: CircleBorder(), backgroundColor: Color(0xFF005EB8),
-                padding: EdgeInsets.all(10), // Azul da página
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                backgroundColor: Color(0xFF005EB8),
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
             ),
             if (_uploadedFiles[label] != null)
@@ -402,4 +402,3 @@ Widget _buildRowWithFieldAndButton(String title, String buttonLabel) {
     return null; // Retorna null se nenhum arquivo for selecionado
   }
 }
-//nadinha
