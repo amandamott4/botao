@@ -234,22 +234,24 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
       SizedBox(height: 8),
 
       // Campos com botões abaixo
-      _buildColumnWithFieldAndButton('Número do CPF', 'Upload CPF'),
-      _buildColumnWithFieldAndButton('Número da Carteira de Identidade', 'Upload RG'),
-    
+      _buildSingleTextField('Número do CPF'),
+      _buildUploadButton(''),
+
+      _buildSingleTextField('Número da Carteira de Identidade'),
+      _buildUploadButton(''),
+
       // Nova linha com 4 campos
       Row(
         children: [
           Expanded(child: _buildSingleTextField('UF')),
           Expanded(child: _buildSingleTextField('Bairro')),
           Expanded(child: _buildSingleTextField('Endereço')),
-          Expanded(child: _buildColumnWithFieldAndButton('CEP', 'Upload CEP')),
+          Expanded(child: _buildSingleTextField('CEP')),
         ],
       ),
 
       // Botões de upload separados
-      _buildUploadButton('Cópia do comprovante de residência (EM NOME DO CONTRATADO)'),
-      _buildUploadButton('Certidão Negativa de Débitos junto à Secretaria de Estado de Fazenda do DF'),
+      _buildUploadButton(''), //cep
     ],
   );   
 }
@@ -261,9 +263,12 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
         Text('Documentos para Pessoa Jurídica de Direito Privado', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,)),
         SizedBox(height: 8),
 
-        //campos de linha unica
-        _buildColumnWithFieldAndButton('Número do CNPJ', ''),
-        _buildColumnWithFieldAndButton( 'Número de Inscrição (INSS)', ''),
+        //campos de linha unica e botao de upload abaixo
+        _buildSingleTextField('Número do CNPJ'),
+        _buildUploadButton(''),
+
+        _buildSingleTextField( 'Número de Inscrição (INSS)'),
+        _buildUploadButton(''),
 
       // Nova linha com 4 campos
       Row(
@@ -271,16 +276,11 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
              Expanded(child: _buildSingleTextField('UF')),
             Expanded(child: _buildSingleTextField('Bairro')),
             Expanded(child: _buildSingleTextField('Endereço')),
-            Expanded(child:  _buildColumnWithFieldAndButton('CEP','')),
+            Expanded(child: _buildSingleTextField('CEP')),
           ],
         ),  
 
-        SizedBox(height: 16),
-        _buildUploadButton('Cópia do CNPJ - Comprovante de Inscrição e Situação Cadastral'),
-        _buildUploadButton('Contrato Social e suas alterações'),
-        _buildUploadButton('Certidão Negativa de Débitos Relativos aos Tributos Federais'),
-        _buildUploadButton('Cópia do comprovante de endereço (EM NOME DA EMPRESA)'),
-        _buildUploadButton('Certidão Negativa de Débitos junto à Secretaria de Estado de Fazenda do DF'),
+        _buildUploadButton('')//cep
       ],
     );
   }
@@ -293,8 +293,11 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
         SizedBox(height: 8),
 
           //campos de linha unica
-        _buildColumnWithFieldAndButton('Número do CNPJ', ''),
-        _buildColumnWithFieldAndButton('Número do Cartão de Cadastro (CF/DF)', ''),
+        _buildSingleTextField('Número do CNPJ'),
+        _buildUploadButton(''),
+
+        _buildSingleTextField('Número do Cartão de Cadastro (CF/DF)'),
+        _buildUploadButton(''),
 
        // Nova linha com 4 campos
        Row(
@@ -302,18 +305,11 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
             Expanded(child: _buildSingleTextField('UF')),
             Expanded(child: _buildSingleTextField('Bairro')),
             Expanded(child: _buildSingleTextField('Endereço')),
-            Expanded(child: _buildColumnWithFieldAndButton('CEP','')),
+            Expanded(child: _buildSingleTextField('CEP')),
           ],
         ),  
 
-      
-       
-        SizedBox(height: 16),
-        _buildUploadButton('Cópia do CNPJ - Comprovante de Inscrição e Situação Cadastral'),
-        _buildUploadButton('Ato de instituição e suas alterações'),
-        _buildUploadButton('Cópia do comprovante de endereço (EM NOME DA ENTIDADE)'),
-        _buildUploadButton('Cópia do Cartão de Cadastro Fiscal do DF (CF/DF)'),
-        _buildUploadButton('Guias de Recolhimento do ISS ou ICMS'),
+         _buildUploadButton('') //cep
       ],
     );
   }
