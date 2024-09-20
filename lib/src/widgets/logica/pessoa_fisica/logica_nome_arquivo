@@ -1,0 +1,11 @@
+import 'package:upload_de_documentos/page/pgUpload.dart';
+
+class PguploadPage extends StatefulWidget {
+  @override
+  _PguploadPageState createState() => _PguploadPageState();
+
+}
+
+class _PguploadPageState extends State<PguploadPage> {
+  String? _tipoOperadora = 'Pessoa Física';
+  Map<String, String?> _uploadedFiles = {}; // Armazenar os nomes dos arquivos anexados

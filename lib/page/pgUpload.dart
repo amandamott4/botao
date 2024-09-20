@@ -236,10 +236,11 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
       // Campos com botões abaixo
       _buildSingleTextField('Número do CPF'),
       _buildUploadButton(''),
+      SizedBox(height: 25),
 
       _buildSingleTextField('Número da Carteira de Identidade'),
       _buildUploadButton(''),
-
+      SizedBox(height: 25),   
       // Nova linha com 4 campos
       Row(
         children: [
@@ -252,6 +253,7 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
 
       // Botões de upload separados
       _buildUploadButton(''), //cep
+      SizedBox(height: 25),
     ],
   );   
 }
@@ -266,10 +268,11 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
         //campos de linha unica e botao de upload abaixo
         _buildSingleTextField('Número do CNPJ'),
         _buildUploadButton(''),
+        SizedBox(height: 25),
 
         _buildSingleTextField( 'Número de Inscrição (INSS)'),
         _buildUploadButton(''),
-
+        SizedBox(height: 25),
       // Nova linha com 4 campos
       Row(
           children: [
@@ -280,7 +283,8 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
           ],
         ),  
 
-        _buildUploadButton('')//cep
+        _buildUploadButton(''),//cep
+        SizedBox(height: 25),
       ],
     );
   }
@@ -295,9 +299,11 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
           //campos de linha unica
         _buildSingleTextField('Número do CNPJ'),
         _buildUploadButton(''),
+        SizedBox(height: 25),
 
         _buildSingleTextField('Número do Cartão de Cadastro (CF/DF)'),
         _buildUploadButton(''),
+        SizedBox(height: 25),
 
        // Nova linha com 4 campos
        Row(
@@ -309,7 +315,8 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
           ],
         ),  
 
-         _buildUploadButton('') //cep
+         _buildUploadButton(''), //cep
+         SizedBox(height: 25),
       ],
     );
   }
@@ -322,7 +329,7 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(label),
-      SizedBox(height: 8),
+      SizedBox(height: 0),
       Center(
         child: Stack(
           alignment: Alignment.center,
@@ -337,7 +344,7 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
                 }
               },
               child: Text(
-                'Anexar arquivo',
+                'Escolher arquivo',
                 style: TextStyle(color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
@@ -345,7 +352,7 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel) {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 backgroundColor: Color(0xFF005EB8),
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
               ),
             ),
             if (_uploadedFiles[label] != null)
