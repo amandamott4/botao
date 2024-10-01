@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../page/pgUpload.dart';
+import 'src/page/pgUpload.dart';
 
 void main(){
   runApp(MyApp());
