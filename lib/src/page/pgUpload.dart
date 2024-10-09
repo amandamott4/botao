@@ -11,7 +11,9 @@ class PguploadPage extends StatefulWidget {
 
 class _PguploadPageState extends State<PguploadPage> {
   String? _tipoOperadora = 'Pessoa Física';
-  Map<String, String?> _uploadedFiles = {}; // Armazenar os nomes dos arquivos anexados
+  Map<String, List<String>> _uploadedFiles = {}; // Armazenar os nomes dos arquivos anexados
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +241,7 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel, String b
         SizedBox(height: 8),
 
         //campos de linha unica e botao de upload abaixo
-        _buildSingleTextField('cnpj'),
+        _buildSingleTextField('CNPJ'),
         _buildUploadButton('', 'inserir Comprovante de Inscrição e Situação Cadastral'),
         SizedBox(height: 25),
 
@@ -296,92 +298,113 @@ Widget _buildColumnWithFieldAndButton(String title, String buttonLabel, String b
 
 
 
-  // Função para exibir o botão de upload com a funcionalidade de alterar/excluir o arquivo
+  // Função para exibir o botão de upload com a funcionalidade de alterar/excluir o arquivo  
+  //armazenamúltiplos nomes de arquivos
+ 
+
   Widget _buildUploadButton(String label, String buttonText) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(label),
-      SizedBox(height: 8),
-      Center(
-        child: SizedBox(
-          width: 250, // Largura fixa para todos os botões
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  String? result = await _pickFile(); // Pegar o arquivo usando file_picker
-                  if (result != null) {
-                    setState(() {
-                      _uploadedFiles[label] = result; // Armazenar o nome do arquivo
-                    });
-                  }
-                },
-                child: Container(
-                  width: double.infinity, // Faz o conteúdo do botão ocupar toda a largura disponível
-                  child: Text(
-                    buttonText,
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center, // Centraliza o texto
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  backgroundColor: Color(0xFF005EB8),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-                ),
-              ),
-              if (_uploadedFiles[label] != null)
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: GestureDetector(
-                    onTap: () {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label),
+        const SizedBox(height: 8),
+        Center(
+          child: SizedBox(
+            width: 250,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    List<String>? result = await _pickFiles();
+                    if (result.isNotEmpty) {
                       setState(() {
-                        _uploadedFiles[label] = null; // Excluir o arquivo anexado
+                        // Inicializa a lista se ainda não existir
+                        if (!_uploadedFiles.containsKey(label)) {
+                          _uploadedFiles[label] = [];
+                        }
+                        // Adiciona os novos arquivos à lista existente
+                        _uploadedFiles[label]!.addAll(result);
                       });
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(Icons.close, size: 12, color: Colors.white),
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    backgroundColor: Color(0xFF005EB8),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    child: Text(
+                      buttonText,
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
+              ],
+            ),
+          ),
+        ),
+        if (_uploadedFiles.containsKey(label) && _uploadedFiles[label]!.isNotEmpty)
+          Column(
+            children: [
+              ..._uploadedFiles[label]!.asMap().entries.map((entry) {
+                int idx = entry.key;
+                String fileName = entry.value;
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Arquivo ${idx + 1}: $fileName',
+                          style: TextStyle(fontSize: 14, color: Colors.blue),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _uploadedFiles[label]!.removeAt(idx);
+                            if (_uploadedFiles[label]!.isEmpty) {
+                              _uploadedFiles.remove(label);
+                            }
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(Icons.close, size: 12, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
             ],
           ),
-        ),
-      ),
-      if (_uploadedFiles[label] != null)
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
-            'Arquivo anexado: ${_uploadedFiles[label]}',
-            style: TextStyle(fontSize: 14, color: Colors.blue),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      SizedBox(height: 16),
-    ],
-  );
-}
+        SizedBox(height: 16),
+      ],
+    );
+  }
 
-  // Função para abrir o File Picker e selecionar um arquivo PDF
-  Future<String?> _pickFile() async {
+  Future<List<String>> _pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
+      allowMultiple: true,
     );
+    
     if (result != null) {
-      PlatformFile file = result.files.first;
-      return file.name; // Retorna o nome do arquivo selecionado
+      return result.files.map((file) => file.name).toList();
     }
-    return null; // Retorna null se nenhum arquivo for selecionado
+    return []; // Retorna uma lista vazia em vez de null
   }
 }
